@@ -7,12 +7,17 @@ export class DrugSavingService {
       private httpService: HttpService
   ) {}
 
-  findCachedDrugs = async () => {
+  findCachedDrugs = async (token) => {
     let response;
     try{
     await this.httpService
         .get(
             `${process.env.CACHED_DRUG_URL}`,
+            {
+              headers: {
+                'Authorization': token,
+              },
+            }
 
         )
         .toPromise()

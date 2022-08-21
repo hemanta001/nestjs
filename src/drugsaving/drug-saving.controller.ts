@@ -1,7 +1,7 @@
 import {
   Controller,
   Get,
-  HttpStatus, Res,
+  HttpStatus, Headers, Res,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -19,10 +19,12 @@ export class DrugSavingController {
 
   @Get('/load/cached')
   @ApiOperation({ summary: 'List of load cached.' })
-  async findAll(@Res() res) {
+  async findAll(@Headers() headers, @Res() res) {
+    const token=headers.get("Authorization");
+
     return res.status(HttpStatus.OK).send({
       statusCode: HttpStatus.OK,
-      data: await this.drugSavingService.findCachedDrugs(),
+      data: await this.drugSavingService.findCachedDrugs(token),
     });
   }
 
